@@ -32,7 +32,7 @@ public class CategoryController {
     public ResponseEntity<CategoryResponse> findById(@PathVariable Long id){
         return categoryService.findById(id)
                 .map(category -> ResponseEntity.ok(CategoryMapper.toCategoryResponse(category)))
-                .orElse(ResponseEntity.status(HttpStatus.NO_CONTENT).build());
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
@@ -45,9 +45,9 @@ public class CategoryController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<CategoryResponse> delete(@PathVariable Long id){
+    public ResponseEntity<Void> delete(@PathVariable Long id){
         categoryService.delete(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return ResponseEntity.noContent().build();
     }
 }
 
