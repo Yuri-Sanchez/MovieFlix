@@ -41,8 +41,8 @@ public class MovieService {
         movieRepository.deleteById(id);
     }
 
-    public Optional<Movie> update(Movie updateMovie){
-        Optional<Movie> optMovie = findById(updateMovie.getId());
+    public Optional<Movie> update(Long id, Movie updateMovie){
+        Optional<Movie> optMovie = movieRepository.findById(id);
 
         if(optMovie.isPresent()){
             List<Category> categories = this.findCategories(updateMovie.getCategories());
@@ -55,10 +55,10 @@ public class MovieService {
             movie.setReleaseDate(updateMovie.getReleaseDate());
 
             movie.getCategories().clear();
-            movie.getCategories().addAll(findCategories(updateMovie.getCategories()));
+            movie.getCategories().addAll(categories);
 
             movie.getStreamings().clear();
-            movie.getStreamings().addAll(findStreaming(updateMovie.getStreamings()));
+            movie.getStreamings().addAll(streamings);
 
             movieRepository.save(movie);
             return Optional.of(movie);
